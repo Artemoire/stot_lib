@@ -1,8 +1,11 @@
 #include <stdio.h>
 
+#include "stot_test.h"
+
 int main()
 {
-	printf("Hello, World!\n");
+	test_MemPoo();
+	test_conclude();
 
 	return 1;
 }

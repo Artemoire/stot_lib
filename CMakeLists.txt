@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.0)
-project(slab VERSION 0.1.0)
+project(stot_lib VERSION 0.1.0)
 
 set(INCL_BASEDIR "")
 set(INCL_BASEDIR_CACHE "")
