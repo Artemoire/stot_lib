@@ -1,3 +1,1 @@
-#include "lib/hash_table.h"
-
-hashTest()
+#include "stot/hash_table.h"
