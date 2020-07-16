@@ -4,5 +4,6 @@
 #include "assrt.h"
 
 void test_MemPoo();
+void test_Hash();
 
 #endif

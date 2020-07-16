@@ -5,18 +5,18 @@ stot_set_prop(stot_lib_test_src "main.c")
 
 stot_set_prop(stot_lib_test_src "stot_test.h")
 stot_set_prop(stot_lib_test_src "test_mem_poo.c")
-stot_set_prop(stot_lib_test_src "test_hash_table.c")
+stot_set_prop(stot_lib_test_src "test_hash.c")
 stot_set_prop(stot_lib_test_src "assrt.h")
 stot_set_prop(stot_lib_test_src "assrt.c")
 
-# Headers
+# Public Files
 stot_set_prop(stot_lib_src "incl/stot/mem_poo.h")
-stot_set_prop(stot_lib_src "incl/stot/hash_table.h")
-stot_set_prop(stot_lib_src "incl/stot/prime.h")
-# Source Files
+stot_set_prop(stot_lib_src "incl/stot/hash.h")
+# Internal Files
 stot_set_prop(stot_lib_src "lib/mem_poo.c")
-stot_set_prop(stot_lib_src "lib/hash_table.c")
-stot_set_prop(stot_lib_src "lib/prime.c")
+stot_set_prop(stot_lib_src "lib/hash_set.c")
+stot_set_prop(stot_lib_src "lib/hash_internal.h")
+stot_set_prop(stot_lib_src "lib/hash_internal.c")
 
 if(CMAKE_PROJECT_NAME STREQUAL "stot_lib")
     add_executable(stot ${stot_lib_test_src} ${stot_lib_src})
