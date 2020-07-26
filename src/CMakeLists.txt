@@ -12,11 +12,13 @@ stot_set_prop(stot_lib_test_src "assrt.c")
 # Public Files
 stot_set_prop(stot_lib_src "incl/stot/mem_poo.h")
 stot_set_prop(stot_lib_src "incl/stot/hash.h")
+stot_set_prop(stot_lib_src "incl/stot/lp_string.h")
 # Internal Files
 stot_set_prop(stot_lib_src "lib/mem_poo.c")
 stot_set_prop(stot_lib_src "lib/hash_set.c")
 stot_set_prop(stot_lib_src "lib/hash_internal.h")
 stot_set_prop(stot_lib_src "lib/hash_internal.c")
+stot_set_prop(stot_lib_src "lib/lp_string.c")
 
 if(CMAKE_PROJECT_NAME STREQUAL "stot_lib")
     add_executable(stot ${stot_lib_test_src} ${stot_lib_src})

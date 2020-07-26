@@ -3,24 +3,25 @@
 
 #include <stdint.h>
 
+#include "lp_string.h"
+
 typedef struct {
 	uint32_t hash;
-	uint32_t len;
-	const char* key;
+	lp_string* key;
 } _HSetEntry;
 
 typedef struct {
 	uint8_t stage;
-	uint32_t cap;
-    uint32_t cnt;
+	size_t cap;
+    size_t cnt;
 	_HSetEntry* entries;
 } HashSet;
 
 void HashSet_init(HashSet* set);
 void HashSet_destroy(HashSet* set);
 
-const char* HashSet_insert(HashSet* set, const char* key, uint32_t len);
+lp_string* HashSet_insert(HashSet* set, lp_string* key);
 
-const char** HashSet_toKeyArray(HashSet* set);
+lp_string** HashSet_keys(HashSet* set);
 
 #endif

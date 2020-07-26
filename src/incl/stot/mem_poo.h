@@ -1,5 +1,5 @@
-#ifndef stt_lib_mem_poo_h
-#define stt_lib_mem_poo_h
+#ifndef stot_lib_mem_poo_h
+#define stot_lib_mem_poo_h
 
 #include <stdlib.h>
 
