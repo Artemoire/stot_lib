@@ -4,7 +4,7 @@
 
 int main()
 {
-	// test_MemPoo();
+	test_MemPoo();
 	test_Hash();
 	test_conclude();
 

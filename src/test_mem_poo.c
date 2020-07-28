@@ -45,10 +45,19 @@ static void no_alloc()
 	MemPoo_free(mem);
 }
 
+static void mem_reuse() {
+	MemPoo* mem = MemPoo_ctor(NULL);	
+	MemPoo_free(mem);
+
+	MemPoo* mem_2 = MemPoo_ctor(NULL);
+	ASSRT_EQ(mem, mem_2); // If this doesn't work, there's no point to MemPoo
+}
+
 void test_MemPoo()
 {
 	TEST_FUNC(test_MemPoo, mem_write);
 	TEST_FUNC(test_MemPoo, mem_alloc);
 	TEST_FUNC(test_MemPoo, page_alloc);
 	TEST_FUNC(test_MemPoo, no_alloc);
+	TEST_FUNC(test_MemPoo, mem_reuse);
 }
