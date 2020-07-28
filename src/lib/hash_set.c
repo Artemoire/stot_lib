@@ -31,17 +31,17 @@ static size_t fnv_1(lp_string* key)
 	return hash;
 }
 
-static inline bool _key_equal(_HSetEntry* entry, size_t hash, lp_string* key)
+static inline bool _key_equal(HashSet_Entry* entry, size_t hash, lp_string* key)
 {
 	return entry->hash == hash && entry->key->len == key->len && strncmp(entry->key->data, key->data, key->len) == 0;
 }
 
-static _HSetEntry* _HashSet_find_entry(HashSet* set, size_t hash_a, lp_string* key)
+static HashSet_Entry* _HashSet_find_entry(HashSet* set, size_t hash_a, lp_string* key)
 {
 	const uint32_t hash_b = fnv_1(key);
 
-	_HSetEntry *candidate = &set->entries[hash_a % set->cap];
-	_HSetEntry *deleted = NULL;
+	HashSet_Entry *candidate = &set->entries[hash_a % set->cap];
+	HashSet_Entry *deleted = NULL;
 
 	uint32_t collisions = 1;
 	while (candidate->key != NULL) {
@@ -63,7 +63,7 @@ void HashSet_init(HashSet* set)
 	set->cap = 31;
 	set->cnt = 0;
 	set->stage = 5;
-	set->entries = calloc(32, sizeof(_HSetEntry));
+	set->entries = calloc(32, sizeof(HashSet_Entry));
 }
 
 void HashSet_destroy(HashSet* set)
@@ -78,17 +78,17 @@ void HashSet_destroy(HashSet* set)
 static void _HashSet_scale(HashSet* set)
 {
 	size_t prevCap = set->cap;
-	_HSetEntry *prevEntries = set->entries;
+	HashSet_Entry *prevEntries = set->entries;
 
 	// TODO: MaxStage ?
 	set->cap = (1 << set->stage) - plt2n_diff_table[set->stage];
 	set->cnt = 0;
-	set->entries = calloc((1 << set->stage), sizeof(_HSetEntry));
+	set->entries = calloc((1 << set->stage), sizeof(HashSet_Entry));
 
 	for (size_t i = 0; i < prevCap; i++) {
-		_HSetEntry* entry = &prevEntries[i];
+		HashSet_Entry* entry = &prevEntries[i];
 		if (entry->key != NULL && entry->key != deleted_key) {
-			_HSetEntry *new_entry = _HashSet_find_entry(set, entry->hash, entry->key); // should return empty always
+			HashSet_Entry *new_entry = _HashSet_find_entry(set, entry->hash, entry->key); // should return empty always
 			new_entry->hash = entry->hash;
 			new_entry->key = entry->key;
 		}
@@ -97,17 +97,18 @@ static void _HashSet_scale(HashSet* set)
 	free(prevEntries);
 }
 
-lp_string* HashSet_insert(HashSet* set, lp_string* key)
+HashSet_Entry* HashSet_insert(HashSet* set, lp_string* key)
 {
 	const size_t hash_a = fnv_1a(key);
 
+	// TODO: max stage ?
 	if ((set->cnt * 100 / set->cap) >= 75)
 	{
 		set->stage++;
 		_HashSet_scale(set);
 	}
 
-	_HSetEntry *entry = _HashSet_find_entry(set, hash_a, key);
+	HashSet_Entry *entry = _HashSet_find_entry(set, hash_a, key);
 
 	if (entry->key == NULL || entry->key == deleted_key) {
 		set->cnt++;
@@ -115,7 +116,26 @@ lp_string* HashSet_insert(HashSet* set, lp_string* key)
 		entry->key = key;
 	}
 
-	return entry->key;
+	return entry;
+}
+
+bool HashSet_remove(HashSet* set, lp_string* key)
+{
+	const size_t hash_a = fnv_1a(key);
+
+	HashSet_Entry *entry = _HashSet_find_entry(set, hash_a, key);
+
+	if (entry->key != NULL && entry->key != deleted_key) {
+		entry->hash = 0;
+		entry->key = deleted_key;
+
+		set->cnt--;
+		// TODO: scale down?
+
+		return true;
+	}
+
+	return false;
 }
 
 lp_string** HashSet_keys(HashSet* set)

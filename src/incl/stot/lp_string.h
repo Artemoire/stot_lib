@@ -8,6 +8,11 @@ typedef struct {
 	char data[];
 } lp_string;
 
+typedef struct {
+	size_t len;
+	char data[512];
+} lp_string_b512;
+
 lp_string* lp_string_copy(size_t len, const char* data);
 
 #endif
