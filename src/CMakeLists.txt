@@ -13,6 +13,7 @@ stot_set_prop(stot_lib_test_src "assrt.c")
 stot_set_prop(stot_lib_src "incl/stot/mem_poo.h")
 stot_set_prop(stot_lib_src "incl/stot/hash.h")
 stot_set_prop(stot_lib_src "incl/stot/lp_string.h")
+stot_set_prop(stot_lib_src "incl/stot/list.h")
 # Internal Files
 stot_set_prop(stot_lib_src "lib/mem_poo.c")
 stot_set_prop(stot_lib_src "lib/hash_set.c")
