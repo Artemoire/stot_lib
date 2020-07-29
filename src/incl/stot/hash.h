@@ -7,7 +7,7 @@
 #include "lp_string.h"
 
 typedef struct {
-	uint32_t hash;
+	size_t hash;
 	lp_string* key;
 } HashSet_Entry;
 
