@@ -38,7 +38,7 @@ static inline bool _key_equal(HashSet_Entry* entry, size_t hash, lp_string* key)
 
 static HashSet_Entry* _HashSet_find_entry(HashSet* set, size_t hash_a, lp_string* key)
 {
-	const uint32_t hash_b = fnv_1(key);
+	const size_t hash_b = fnv_1(key);
 
 	HashSet_Entry *candidate = &set->entries[hash_a % set->cap];
 	HashSet_Entry *deleted = NULL;
