@@ -5,12 +5,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static size_t fnv_1a(lp_string* key)
+#define STR(x) { false, sizeof(x) - 1, sizeof(x) - 1, x }
+
+static size_t fnv_1a(str* key)
 {
 	size_t hash = 2166136261u;
 
 	for (size_t i = 0; i < key->len; i++) {
-		hash ^= key->data[i];
+		hash ^= key->buffer[i];
 		hash *= 16777619;
 	}
 
@@ -35,7 +37,7 @@ static void init() {
 
 static void insertion_1()
 {
-	lp_string in = { 12, "Hello There!" };
+	str in = STR("Hello There!");
 	
 	HashSet set;
 
@@ -49,8 +51,8 @@ static void insertion_1()
 
 static void insertion_2_copy()
 {
-	lp_string in_1 = { 12, "Hello There!" };
-	lp_string in_2 = { 12, "Hello There!" };
+	str in_1 = STR("Hello There!");
+	str in_2 = STR("Hello There!");
 
 	HashSet set;
 	HashSet_init(&set);
@@ -68,11 +70,11 @@ static void insertion_3_col() // Should pass if the collided strings are correct
 {
 	// Overflowing hash so need different input for x64 and x86
 #ifdef _WIN64
-	lp_string in_1 = { 1, "z" };
-	lp_string in_2 = { 1, "e" };
+	str in_1 = STR("z");
+	str in_2 = STR("e");
 #else	
-	lp_string in_1 = { 1, "I" };
-	lp_string in_2 = { 1, "4" };
+	str in_1 = STR("I");
+	str in_2 = STR("4");
 #endif
 
 	HashSet set;
@@ -91,7 +93,7 @@ static void insertion_3_col() // Should pass if the collided strings are correct
 
 static void deletion()
 {
-	lp_string in = { 15, "General Kenobi!" };
+	str in = STR("General Kenobi!");
 
 	HashSet set;
 	HashSet_init(&set);
@@ -108,7 +110,7 @@ static void deletion()
 
 static void entry_reuse()
 {
-	lp_string in = { 15, "General Kenobi!" };
+	str in = STR("General Kenobi!");
 
 	HashSet set;
 	HashSet_init(&set);

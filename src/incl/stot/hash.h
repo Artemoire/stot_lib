@@ -4,11 +4,11 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#include "lp_string.h"
+#include "str.h"
 
 typedef struct {
 	size_t hash;
-	lp_string* key;
+	str* key;
 } HashSet_Entry;
 
 typedef struct {
@@ -21,9 +21,9 @@ typedef struct {
 void HashSet_init(HashSet* set);
 void HashSet_destroy(HashSet* set);
 
-HashSet_Entry* HashSet_insert(HashSet* set, lp_string* key);
-bool HashSet_remove(HashSet* set, lp_string* key);
+HashSet_Entry* HashSet_insert(HashSet* set, str* key);
+bool HashSet_remove(HashSet* set, str* key);
 
-lp_string** HashSet_keys(HashSet* set);
+str** HashSet_keys(HashSet* set);
 
 #endif

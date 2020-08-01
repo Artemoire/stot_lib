@@ -5,38 +5,38 @@
 #include "stot/hash.h"
 #include "hash_internal.h"
 
-static lp_string * deleted_key = (lp_string*)1;
+static str * deleted_key = (str*)1;
 
-static size_t fnv_1a(lp_string* key)
+static size_t fnv_1a(str* key)
 {
 	size_t hash = 2166136261u;
 
 	for (size_t i = 0; i < key->len; i++) {
-		hash ^= key->data[i];
+		hash ^= key->buffer[i];
 		hash *= 16777619;
 	}
 
 	return hash;
 }
 
-static size_t fnv_1(lp_string* key)
+static size_t fnv_1(str* key)
 {
 	size_t hash = 2166136261u;
 
 	for (size_t i = 0; i < key->len; i++) {
 		hash *= 16777619;
-		hash ^= key->data[i];
+		hash ^= key->buffer[i];
 	}
 
 	return hash;
 }
 
-static inline bool _key_equal(HashSet_Entry* entry, size_t hash, lp_string* key)
+static inline bool _key_equal(HashSet_Entry* entry, size_t hash, str* key)
 {
-	return entry->hash == hash && entry->key->len == key->len && strncmp(entry->key->data, key->data, key->len) == 0;
+	return entry->hash == hash && entry->key->len == key->len && strncmp(entry->key->buffer, key->buffer, key->len) == 0;
 }
 
-static HashSet_Entry* _HashSet_find_entry(HashSet* set, size_t hash_a, lp_string* key)
+static HashSet_Entry* _HashSet_find_entry(HashSet* set, size_t hash_a, str* key)
 {
 	const size_t hash_b = fnv_1(key);
 
@@ -97,7 +97,7 @@ static void _HashSet_scale(HashSet* set)
 	free(prevEntries);
 }
 
-HashSet_Entry* HashSet_insert(HashSet* set, lp_string* key)
+HashSet_Entry* HashSet_insert(HashSet* set, str* key)
 {
 	const size_t hash_a = fnv_1a(key);
 
@@ -119,7 +119,7 @@ HashSet_Entry* HashSet_insert(HashSet* set, lp_string* key)
 	return entry;
 }
 
-bool HashSet_remove(HashSet* set, lp_string* key)
+bool HashSet_remove(HashSet* set, str* key)
 {
 	const size_t hash_a = fnv_1a(key);
 
@@ -138,9 +138,9 @@ bool HashSet_remove(HashSet* set, lp_string* key)
 	return false;
 }
 
-lp_string** HashSet_keys(HashSet* set)
+str** HashSet_keys(HashSet* set)
 {
-	lp_string** arr = malloc(sizeof(lp_string *) * set->cnt);
+	str** arr = malloc(sizeof(str *) * set->cnt);
 	size_t k = 0;
 	for (size_t i = 0; i < set->cap; ++i) {
 
