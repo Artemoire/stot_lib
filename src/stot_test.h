@@ -5,5 +5,6 @@
 
 void test_MemPoo();
 void test_Hash();
+void test_str_builder();
 
 #endif

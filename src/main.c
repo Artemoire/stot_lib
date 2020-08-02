@@ -24,6 +24,7 @@ int main()
 {
 	test_MemPoo();
 	test_Hash();
+	test_str_builder();
 
 	TEST_FUNC(main, test_bread); // TODO: test_mem_bread.h
 	test_conclude();
